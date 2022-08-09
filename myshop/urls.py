@@ -21,7 +21,9 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cart/', include('cart.urls', namespace='cart')),  # should be upper shop app
+    path('payment/', include('payment.urls', namespace='payment')),  # should be upper shop app
     path('shop/', include('shop.urls', namespace='shop')),
+    path('orders/', include('orders.urls', namespace='orders')),
 
 ]
 

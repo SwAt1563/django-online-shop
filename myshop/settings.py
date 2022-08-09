@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import braintree  # for credit cart
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,8 +34,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'cart.apps.CartConfig',
+    'cart.apps.CartConfig',  # should be upper of another apps
+    'payment.apps.PaymentConfig',  # should be upper of another apps
     'shop.apps.ShopConfig',
+    'orders.apps.OrdersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -136,3 +141,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 CART_SESSION_ID = 'cart'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Braintree settings
+BRAINTREE_MERCHANT_ID = '2pk49mtcxnb9j996' # Merchant ID
+BRAINTREE_PUBLIC_KEY = 'yydqn6qrs8dhd68h' # Public Key
+BRAINTREE_PRIVATE_KEY = '9c216a86ec99356388889d510f5ee790' # Private key
+
+BRAINTREE_CONF = braintree.Configuration(
+ braintree.Environment.Sandbox,
+ BRAINTREE_MERCHANT_ID,
+ BRAINTREE_PUBLIC_KEY,
+ BRAINTREE_PRIVATE_KEY
+)
