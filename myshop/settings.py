@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import braintree  # for credit cart
+from django.utils.translation import gettext_lazy as _
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,6 +37,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'cart.apps.CartConfig',  # should be upper of another apps
     'payment.apps.PaymentConfig',  # should be upper of another apps
+    'coupons.apps.CouponsConfig', # should be upper of another apps
     'shop.apps.ShopConfig',
     'orders.apps.OrdersConfig',
     'django.contrib.admin',
@@ -44,11 +46,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rosetta',
+    'parler',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # for languages, note: it should be under session cuz it use it
+    # and before Common, cuz the latter depend on the url request to choose the language
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -112,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+
 
 TIME_ZONE = 'UTC'
 
@@ -155,3 +162,43 @@ BRAINTREE_CONF = braintree.Configuration(
  BRAINTREE_PUBLIC_KEY,
  BRAINTREE_PRIVATE_KEY
 )
+
+# you should download https://mlocati.github.io/articles/gettext-iconv-windows.html
+# gettext
+
+# command for makemessages
+# django-admin makemessages --all -i venv
+# or
+# ./manage.py makemessages -l en -i venv
+# ./manage.py makemessages -l es -i venv
+
+# django-admin compilemessages
+
+'''
+if the standard language is english
+then you should put the spanish words in
+es messages files not in en
+
+'''
+LANGUAGES = (
+ ('en', _('English')),
+ ('es', _('Spanish')),
+)
+
+LANGUAGE_CODE = 'en'
+
+# where message files for my application will reside
+LOCALE_PATHS = (
+ os.path.join(BASE_DIR, 'locale/'),
+)
+
+PARLER_LANGUAGES = {
+ None: (
+ {'code': 'en'},
+ {'code': 'es'},
+ ),
+ 'default': {
+ 'fallback': 'en',
+ 'hide_untranslated': False,
+ }
+}

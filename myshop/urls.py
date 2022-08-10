@@ -17,15 +17,19 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
+from django.utils.translation import gettext_lazy as _
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('cart/', include('cart.urls', namespace='cart')),  # should be upper shop app
-    path('payment/', include('payment.urls', namespace='payment')),  # should be upper shop app
-    path('shop/', include('shop.urls', namespace='shop')),
-    path('orders/', include('orders.urls', namespace='orders')),
+urlpatterns = i18n_patterns(
+    path(_('admin/'), admin.site.urls),
+    path(_('cart/'), include('cart.urls', namespace='cart')),  # should be upper shop app
+    path(_('payment/'), include('payment.urls', namespace='payment')),  # should be upper shop app
+    path(_('coupons/'), include('coupons.urls', namespace='coupons')),  # should be upper shop app
+    path('rosetta/', include('rosetta.urls')),  # should be upper shop app
+    path('', include('shop.urls', namespace='shop')),
+    path(_('orders/'), include('orders.urls', namespace='orders')),
 
-]
+)
 
 
 # for confirm the static paths
