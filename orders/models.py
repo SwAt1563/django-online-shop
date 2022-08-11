@@ -5,7 +5,6 @@ from django.core.validators import MinValueValidator, \
  MaxValueValidator
 from coupons.models import Coupon
 from django.utils.translation import gettext_lazy as _
-# Create your models here.
 
 
 class Order(models.Model):
@@ -26,6 +25,7 @@ class Order(models.Model):
     discount = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     class Meta:
+        # when get queryset of orders, return it ordered by created time
         ordering = ('-created',)
 
     def __str__(self):

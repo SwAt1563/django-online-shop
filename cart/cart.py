@@ -3,12 +3,13 @@ from django.conf import settings
 from shop.models import Product
 from coupons.models import Coupon
 
+
 class Cart(object):
     def __init__(self, request):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
-            # if there is no any cart yet
+            # if there is no any product in cart yet
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
         # store current applied coupon
@@ -25,7 +26,7 @@ class Cart(object):
     def add(self, product, quantity=1, override_quantity=False):
         product_id = str(product.id)
         if product_id not in self.cart:
-            # session just take json format 'str'
+            # session just take json format int and 'str'
             self.cart[product_id] = {'quantity': 0,
                                      'price': str(product.price)}
 
@@ -53,7 +54,7 @@ class Cart(object):
         for item in cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
-            yield item
+            yield item  # for return an product item and in next iter continue from here
 
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())

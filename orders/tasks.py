@@ -2,7 +2,11 @@ from celery import task
 from django.core.mail import send_mail
 from .models import Order
 
+# we used celery: for make asynchronous tasks
+# you can't see the result if you use window
+# you can apply it on linux os
 
+# this for send message for the user who make the order
 @task
 def order_created(order_id):
     """

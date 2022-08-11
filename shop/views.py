@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 from cart.forms import CartAddProductForm
+from .recommender import Recommender
+
 
 def product_list(request, category_slug=None):
     category = None
     products = Product.objects.filter(available=True)
     categories = Category.objects.all()
     if category_slug:
+        # get category from the url depend on the language
         language = request.LANGUAGE_CODE
         category = get_object_or_404(Category,
                                      translations__language_code=language,
@@ -20,6 +23,7 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, id, slug):
+    # get product from the url depend on the language
     language = request.LANGUAGE_CODE
     product = get_object_or_404(Product,
                                 translations__language_code=language,
@@ -28,12 +32,14 @@ def product_detail(request, id, slug):
                                 available=True)
     cart_product_form = CartAddProductForm()
 
+    # for get the recommenders products for current product
+    r = Recommender()
+    recommended_products = r.suggest_products_for([product], 4)
+
     return render(request,
                   'shop/product/detail.html',
                   {
                       'product': product,
                       'cart_product_form': cart_product_form,
+                      'recommended_products': recommended_products,
                   })
-
-
-

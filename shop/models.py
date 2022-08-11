@@ -8,6 +8,10 @@ from parler.models import TranslatableModel, TranslatedFields
 
 
 class Category(TranslatableModel):
+
+    # make another table for these fields
+    # and have multiple value for each field
+    # depend on the language
     translations = TranslatedFields(
         name=models.CharField(max_length=200, db_index=True),
         slug=AutoSlugField(unique=True)

@@ -5,6 +5,7 @@ from .models import Coupon
 from .forms import CouponApplyForm
 
 
+# you can create coupon from administration page
 
 @require_POST
 def coupon_apply(request):
@@ -17,9 +18,9 @@ def coupon_apply(request):
                                         active=True,
                                         valid_from__lte=now,
                                         valid_to__gte=now)
+            # put it in session for let the cart take it from the request session
             request.session['coupon_id'] = coupon.id
         except Coupon.DoesNotExist:
             request.session['coupon_id'] = None
 
     return redirect('cart:cart_detail')
-

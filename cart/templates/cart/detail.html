@@ -31,12 +31,14 @@
             </td>
             <td>{{ product.name }}</td>
             <td>
+                <!-- for make override of the quantity of the product -->
               <form action="{% url "cart:cart_add" product.id %}" method="post">
                 {{ item.update_quantity_form.quantity }}
                 {{ item.update_quantity_form.override }}
                 <input type="submit" value="Update">
                 {% csrf_token %}
               </form>
+
             </td>
             <td>
               <form action="{% url "cart:cart_remove" product.id %}" method="post">
@@ -75,6 +77,7 @@
     </tbody>
   </table>
 
+    <!-- for show the recommendations products -->
   {% if recommended_products %}
     <div class="recommendations cart">
       <h3>{% trans "People who bought this also bought" %}</h3>
@@ -90,6 +93,8 @@
     </div>
   {% endif %}
 
+
+<!-- for apply the coupon and make discount -->
   <p>{% trans "Apply a coupon" %}:</p>
   <form action="{% url "coupons:apply" %}" method="post">
     {{ coupon_apply_form }}
@@ -97,6 +102,7 @@
     {% csrf_token %}
   </form>
 
+    <!-- For make order from the order items -->
   <p class="text-right">
     <a href="{% url "shop:product_list" %}" class="button light">{% trans "Continue shopping" %}</a>
     <a href="{% url "orders:order_create" %}" class="button">

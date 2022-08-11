@@ -45,8 +45,7 @@
  </tr>
  <tr>
  <th>Status</th>
- <td>{% if order.paid %}Paid{% else %}Pending payment{% endif %}</
-td>
+ <td>{% if order.paid %}Paid{% else %}Pending payment{% endif %}</td>
  </tr>
 </table>
 <div class="module">
@@ -62,6 +61,7 @@ td>
  </thead>
  <tbody>
  {% for item in order.items.all %}
+     <!-- make cycle of two values -->
  <tr class="row{% cycle "1" "2" %}">
  <td>{{ item.product.name }}</td>
  <td class="num">${{ item.price }}</td>

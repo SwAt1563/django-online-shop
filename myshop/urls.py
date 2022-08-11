@@ -20,6 +20,8 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import gettext_lazy as _
 
+# i18n_patterns: for use different urls depend on the languages /en or /es
+# _(..): for convert the english urls to spanish urls when use /es
 urlpatterns = i18n_patterns(
     path(_('admin/'), admin.site.urls),
     path(_('cart/'), include('cart.urls', namespace='cart')),  # should be upper shop app
@@ -31,7 +33,7 @@ urlpatterns = i18n_patterns(
 
 )
 
-
+# you can add more urls without i18n
 # for confirm the static paths
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
