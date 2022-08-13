@@ -6,6 +6,7 @@ from .models import Order
 # you can't see the result if you use window
 # you can apply it on linux os
 
+  
 # this for send message for the user who make the order
 @task
 def order_created(order_id):
