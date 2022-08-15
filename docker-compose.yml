@@ -1,0 +1,98 @@
+version: '3'
+
+# network shared between containers
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  web:
+    container_name: shop
+    depends_on:
+      - redis
+      - db
+    # build current Dockerfile as image
+    build: .
+    # when there is any exit() then reconnect again
+    restart: always
+    # for run the commands in the entrypoint.sh file
+    command: sh entrypoint.sh
+    # for save the media and static files in volumes
+    volumes:
+      # volume_name:dictionary path in docker
+      # you can use docker desktop application for use the CLI to see the dictionaries
+      - media:/media
+
+    ports:
+      - "8000:8000"
+    # environments in setting.py
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_DB=1
+      # redis_host: equal redis container
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - HOST=db
+      - PORT=5432
+      - CELERY_BROKER_URL=redis://redis:6379
+      - CELERY_RESULT_BACKEND=redis://redis:6379
+    networks:
+      - app-tier
+
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - app-tier
+
+  redis:
+    container_name: redis-server
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - app-tier
+
+  celery:
+      restart: always
+      build:
+        # we put the same Dockerfile as the web container
+        # just for run this command while the web is running
+        context: .
+      command: celery -A myshop worker -l info
+      volumes:
+        - celery:/data
+      container_name: celery
+      # it is need postgres environments for get objects from database
+      environment:
+        - CELERY_BROKER_URL=redis://redis:6379
+        - CELERY_RESULT_BACKEND=redis://redis:6379
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - HOST=db
+        - PORT=5432
+      depends_on:
+        - db
+        - redis
+        - web
+      networks:
+        - app-tier
+volumes:
+  db:
+  celery:
+  media:
