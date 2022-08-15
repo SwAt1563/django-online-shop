@@ -27,28 +27,36 @@
 2. ### System Requirements
    
    - Clone the repository 
-   - Create python virtual environments on the same level of manage.py file
-        ```
-        python -m venv venv
-        ```
-   - Create the requirements.txt file on the same level of manage.py file if not exist
+   - Docker steps:
+        - Go to `docker-compose.yml` level on command line
+        - RUN this command `docker-compose build`
+        - RUN this command `docker-compose up -d`
+        - Now you can visit the shop site on this [link](http://localhost:8000/)
+        - You can access the administration site on this [link](http://localhost:8000/admin)
+            - Initial account: `username=admin`, `password=1`
+   - Python Virtual Environment on Windows steps:
+     - Create python virtual environments on the same level of manage.py file
+          ```
+          python -m venv venv
+          ```
+     - Create the requirements.txt file on the same level of manage.py file if not exist
         
-   - Run this command in the terminal of virtual environment
-        ```
-        pip install -r requirements.txt
-        ```
-   - For Windows OS, you should download [GTK3](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases) 
-   `Install DLL files to lib` , then change the path of the GTK3 in `myshop\orders\views.py` file
-   - You should run redis-server before run the project, if you on Windows OS
-     [download](https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows) it
+     - Run this command in the terminal of virtual environment
+          ```
+          pip install -r requirements.txt
+          ```
+     - For Windows OS, you should download [GTK3](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases) 
+     `Install DLL files to lib` , then change the path of the GTK3 in `myshop\orders\views.py` file
+     - You should run redis-server before run the project, if you on Windows OS
+       [download](https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows) it
    
-   - You can use this command in the terminal of virtual environment for create user on your administration page
-        ```
-        python manage.py createsuperuser
-        ```
-   - Run this command in the terminal of virtual environment for open the server connection on localhost
-        ```
-        python manage.py runserver
-        ```
-   - Now you can visit the [administration page](http://localhost:8000/admin) and
-   the [shop page](http://localhost:8000/)
+     - You can use this command in the terminal of virtual environment for create user on your administration page
+          ```
+          python manage.py createsuperuser
+          ```
+     - Run this command in the terminal of virtual environment for open the server connection on localhost
+          ```
+          python manage.py runserver
+          ```
+     - Now you can visit the [administration page](http://localhost:8000/admin) and
+     the [shop page](http://localhost:8000/)
