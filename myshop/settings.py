@@ -88,11 +88,16 @@ WSGI_APPLICATION = 'myshop.wsgi.application'
 
 # Database
 
-
+# if you want to use python environment then use an exist database in your machine
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT'),
+
     }
 }
 
@@ -217,6 +222,19 @@ PARLER_LANGUAGES = {
 USE_L10N = True
 
 # Redis for Recommending products
-REDIS_HOST = 'localhost'
-REDIS_PORT = 6379
-REDIS_DB = 1
+
+# if you want to use python environment then uncomment these lines
+# and comment the another lines for redis
+# REDIS_DB=1
+# REDIS_HOST='localhost'
+# REDIS_PORT=6379
+
+REDIS_HOST = os.environ.get('REDIS_HOST')
+REDIS_PORT = os.environ.get('REDIS_PORT')
+REDIS_DB = os.environ.get('REDIS_DB')
+
+
+# Connect Celery with redis url
+# if you want to use python environment then uncomment these lines
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
