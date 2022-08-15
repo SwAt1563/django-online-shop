@@ -37,7 +37,6 @@
         ```
         pip install -r requirements.txt
         ```
-   - You should download [gettext](https://mlocati.github.io/articles/gettext-iconv-windows.html): static and shared flavors
    - For Windows OS, you should download [GTK3](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases) 
    `Install DLL files to lib` , then change the path of the GTK3 in `myshop\orders\views.py` file
    - You should run redis-server before run the project, if you on Windows OS
