@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # for write the translate for each word from english to spanish
+    # on link `localhost:8000/rosetta`
     'rosetta',
     # for save data in models fields depend on languages
     'parler',
