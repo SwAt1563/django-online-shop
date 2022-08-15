@@ -11,4 +11,6 @@ app.autodiscover_tasks()
 For asynchronous tasks 
 it will search about tasks in the tasks file in each application
 
+Note: don't forget to import celery in myshop/__init__.py file
+
 '''

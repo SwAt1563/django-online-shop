@@ -12,13 +12,16 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from shop.recommender import Recommender
 
+# if you didn't use docker and want to use Windows OS then
 # you should import GTK3 for use weasyprint
 # this for windows os
 # you can download it from here
 # https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases
 import os
-os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\lib")
+# os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\lib")
 import weasyprint
+
+
 # Create your views here.
 
 
@@ -63,6 +66,7 @@ def order_create(request):
         form = OrderCreateForm()
     return render(request, 'orders/order/create.html', {'cart': cart, 'form': form})  # focus: create
 
+
 # the user should be staff member to use this page
 @staff_member_required
 def admin_order_detail(request, order_id):
@@ -85,5 +89,6 @@ def admin_order_pdf(request, order_id):
     # then put it in the response after convert it to the pdf
     # by using weasyprint
     weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(
-        settings.STATIC_ROOT+'\css\pdf.css')])
+        settings.STATIC_ROOT + '/css/pdf.css')])
+
     return response

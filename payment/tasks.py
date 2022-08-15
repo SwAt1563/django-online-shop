@@ -23,7 +23,7 @@ def payment_completed(order_id):
     html = render_to_string('orders/order/pdf.html', {'order': order})
     # we should send the message by bytes format cuz we use pdf
     out = BytesIO()
-    stylesheets = [weasyprint.CSS(settings.STATIC_ROOT+'\css\pdf.css')]
+    stylesheets = [weasyprint.CSS(settings.STATIC_ROOT+'/css/pdf.css')]
     # put the pdf in the out:byte format
     weasyprint.HTML(string=html).write_pdf(out, stylesheets=stylesheets)
 
